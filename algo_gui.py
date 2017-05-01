@@ -1,5 +1,6 @@
 import gtk
 import proj
+import lda_sample
 class GUI:
 	def destroy(self,Widget):
 		gtk.main_quit()
@@ -13,6 +14,7 @@ class GUI:
 	def Find(self,button,entry,label2):
 		input = entry.get_text()
 		pred = proj.inpt(input)
+		lda_sample.identify_topic(input)
 		label2.set_markup(pred)
 		
 

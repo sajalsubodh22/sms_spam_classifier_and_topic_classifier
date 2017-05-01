@@ -41,15 +41,25 @@ doc_term_matrix = np.asarray([dictionary.doc2bow(doc) for doc in doc_clean])
 print doc_term_matrix
 
 # Creating the object for LDA model using gensim library
-Lda = gensim.models.ldamulticore.LdaMulticore
+Lda = gensim.models.ldamodel.LdaModel
 
 # Running and Trainign LDA model on the document term matrix.
-ldamodel = Lda(doc_term_matrix, num_topics=4 ,id2word = dictionary, chunksize=2000, passes=30)
+ldamodel = Lda(doc_term_matrix, num_topics=4 ,id2word = dictionary, chunksize=2000, passes=50)
 print(ldamodel.print_topics(num_topics=4, num_words=25))
 
-sample = dictionary.doc2bow(['great', 'news', 'call', 'freefone', '08006344447', 'claim', 'guaranteed', '\xc2\xa31000', 'cash', '\xc2\xa32000', 'gift', 'speak', 'live', 'operator', 'now'])
-print ldamodel[sample]
 
 
-#def identitfy_topic(input_message):
 
+def identify_topic(input_message):
+	#print input_message
+	clean_message = clean(input_message).split()
+	bow = dictionary.doc2bow(clean_message)
+	print len(bow)
+	mx=0
+	x = ldamodel[bow]
+	print x
+	for tup in x :
+		if tup[1] > mx:
+			mx=tup[1]
+			pos=tup[0]
+	print "Topic ",pos
